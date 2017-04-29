@@ -46,5 +46,6 @@ bool Tree::addNode(std::string name, int alter, int plz, double einkommen)
 
 bool Tree::deleteNode(int id)
 {
+
     return false;
 }

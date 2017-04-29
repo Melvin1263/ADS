@@ -8,8 +8,8 @@ enum Auswahl
     DS_PROGRAMM_BEENDEN,
     DS_EINFUEGEN,
     DS_EINFUEGEN_CSV,
-    DS_SUCHEN,
     DS_LOESCHEN,
+    DS_SUCHEN,
     DS_DATENSTRUKTUR_ANZEIGEN
 };
 
@@ -67,6 +67,14 @@ int main()
         }
         case DS_LOESCHEN:
         {
+            int pos_id;
+            cout << "+ Bitte geben Sie den zu loschenden Datensatz an" << endl;
+            cout << "PosID: ";
+            cin >> pos_id;
+            if (baum.deleteNode(pos_id))
+                cout << "+ Datensatz wurde geloscht." << endl;
+            else
+                cout << "+ Datensatz wurde NICHT geloescht!" << endl;
             break;
         }
         case DS_DATENSTRUKTUR_ANZEIGEN:
@@ -83,4 +91,4 @@ int main()
 
     cin.get();
     return 0;
-}
+} 

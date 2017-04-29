@@ -22,7 +22,7 @@ int main()
     cout << "====================================" << endl;
     cout << "1) Datensatz einfuegen, manuell" << endl;
     cout << "2) Datensatz einfuegen, CSV Datei" << endl;
-    cout << "3) Datensatz loeschen" << endl;
+    cout << "3) Datensatz loeschen" << endl;
     cout << "4) Suchen" << endl;
     cout << "5) Datenstruktur anzeigen" << endl;
 
@@ -68,11 +68,11 @@ int main()
         case DS_LOESCHEN:
         {
             int pos_id;
-            cout << "+ Bitte geben Sie den zu loschenden Datensatz an" << endl;
+            cout << "+ Bitte geben Sie den zu loeschenden Datensatz an" << endl;
             cout << "PosID: ";
             cin >> pos_id;
             if (baum.deleteNode(pos_id))
-                cout << "+ Datensatz wurde geloscht." << endl;
+                cout << "+ Datensatz wurde geloescht." << endl;
             else
                 cout << "+ Datensatz wurde NICHT geloescht!" << endl;
             break;

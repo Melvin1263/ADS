@@ -1,14 +1,24 @@
-﻿get-host
+﻿#get-host
 
+$build_path = "build/"
+$cmake_cmd = "cmake"
 $projects = @("Praktikum_1", "Praktikum_2")
 $working_directory = Get-Location
 
-Write-Host "Create project files for Visual Studio 15"
+Write-Host "Create project files for Visual Studio 14 2015"
 Write-Host "Current working directory: $($working_directory)"
 
-cmake --version
+Write-Host "Check for cmake"
+if([bool](Get-Command -name $cmake_cmd) -ne $true)
+{
+	Write-Host "Press any key to exit ..."
+	$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+	exit
+}
 
-if((Test-Path "build") -ne $true)
+&$cmake_cmd --version
+
+if((Test-Path $build_path) -ne $true)
 {
 	Write-Host "Create build folder"
 	new-item -itemtype directory build | Out-Null
@@ -16,7 +26,7 @@ if((Test-Path "build") -ne $true)
 
 for ($i=0; $i -lt $projects.length; $i++)
 {
-	$folder = "build/$($projects[$i])";
+	$folder = "$($build_path)$($projects[$i])";
 	if((Test-Path $folder) -ne $true)
 	{
 		new-item -itemtype directory $folder | Out-Null
@@ -25,18 +35,19 @@ for ($i=0; $i -lt $projects.length; $i++)
 
 for ($i=0; $i -lt $projects.length; $i++)
 {
-	$a = "build/$($projects[$i])";
-	Set-Location $a
+	$folder = "$($build_path)$($projects[$i])";
+	Set-Location $folder
 	
-	Write-Host "Press enter for build next ..."
+	Write-Host "Want to build $($folder)"
+	Write-Host "Press enter for build ..."
 	$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 	
-	cmake "$working_directory/$($projects[$i])/" -G "Visual Studio 14 2015 Win64"
+	&$cmake_cmd "$working_directory/$($projects[$i])/" -G "Visual Studio 14 2015 Win64"
 	
-    Write-Host "Build $($a)"
+    Write-Host "Build $($folder)"
 	
 	Set-Location $working_directory
 }
 
-Write-Host "Press any key to continue ..."
+Write-Host "Press any key to exit ..."
 $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")

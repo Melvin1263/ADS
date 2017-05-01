@@ -12,9 +12,9 @@ public:
     bool deleteNode(int id);
     TreeNode* search();
     void print();
-	TreeNode *minNode(TreeNode *k, TreeNode*&parent);
-	TreeNode *maxNode(TreeNode *k);
-	TreeNode *findNode(int item);
-	TreeNode *searchRecursive(TreeNode *k, int x);
-	void printPreorder(TreeNode* k);
+    TreeNode *minNode(TreeNode *k, TreeNode*&parent);
+    TreeNode *maxNode(TreeNode *k);
+    TreeNode *findNode(int item);
+    TreeNode *searchRecursive(TreeNode *k, int x);
+    void printPreorder(TreeNode* k);
 };

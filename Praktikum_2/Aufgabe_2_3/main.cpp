@@ -96,15 +96,15 @@ int main()
             cout << "PLZ ?>";
             cin >> plz;
 
-			if (baum.addNode(name, alter, plz, einkommen))
-				cout << "+ Eintrag hinzugefuegt." << endl;
-			else
-				cout << "+ Eintrag wurde nicht hinzugefuegt! Fehler!" << endl;
+            if (baum.addNode(name, alter, plz, einkommen))
+                cout << "+ Eintrag hinzugefuegt." << endl;
+            else
+                cout << "+ Eintrag wurde nicht hinzugefuegt! Fehler!" << endl;
             break;
         }
         case DS_EINFUEGEN_CSV:
         {
-			importCSV(baum);
+            importCSV(baum);
             break;
         }
         case DS_SUCHEN:
@@ -125,12 +125,12 @@ int main()
         }
         case DS_DATENSTRUKTUR_ANZEIGEN:
         {
-			baum.print();
+            baum.print();
             break;
         }
         case DS_PROGRAMM_BEENDEN:
         {
-			abbrechen = true;
+            abbrechen = true;
             break;
         }
         default: break;

@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
 #include "Tree.h"
 using namespace std;
 
@@ -12,6 +15,45 @@ enum Auswahl
     DS_SUCHEN,
     DS_DATENSTRUKTUR_ANZEIGEN
 };
+
+bool importCSV(Tree& baum)
+{
+	ifstream file("ExportZielanalyse.csv");
+	if (!file.is_open())
+	{
+		cout << "+ Datei wurde nicht gefunden!" << endl;
+		return false;
+	}
+
+	int i = 0;
+	string line;
+	while (getline(file, line))
+	{
+		stringstream stream(line);
+		string Name;
+		getline(stream, Name, ';');
+
+		int Alter;
+		string AlterSTR;
+		getline(stream, AlterSTR, ';');
+		Alter = stoi(AlterSTR);
+
+		int Einkommen;
+		string EinkommenSTR;
+		getline(stream, EinkommenSTR, ';');
+		Einkommen = stoi(EinkommenSTR);
+
+		int PLZ;
+		string PLZSTR;
+		getline(stream, PLZSTR);
+		PLZ = stoi(PLZSTR);
+
+		if (baum.addNode(Name, Alter, PLZ, Einkommen))
+			i++;
+	}
+	cout << "+ Es wurden " << i << " Eintraege hinzugefuegt!" << endl;
+	return (i > 0);
+}
 
 int main()
 {
@@ -31,6 +73,7 @@ int main()
     bool abbrechen = false;
     do
     {
+		cout << "?> ";
         cin >> auswahl_int;
         auswahl = Auswahl(auswahl_int);
         cin.clear();
@@ -53,12 +96,15 @@ int main()
             cout << "PLZ ?>";
             cin >> plz;
 
-            baum.addNode(name, alter, plz, einkommen);
-
+			if (baum.addNode(name, alter, plz, einkommen))
+				cout << "+ Eintrag hinzugefuegt." << endl;
+			else
+				cout << "+ Eintrag wurde nicht hinzugefuegt! Fehler!" << endl;
             break;
         }
         case DS_EINFUEGEN_CSV:
         {
+			importCSV(baum);
             break;
         }
         case DS_SUCHEN:
@@ -79,10 +125,12 @@ int main()
         }
         case DS_DATENSTRUKTUR_ANZEIGEN:
         {
+			baum.print();
             break;
         }
         case DS_PROGRAMM_BEENDEN:
         {
+			abbrechen = true;
             break;
         }
         default: break;

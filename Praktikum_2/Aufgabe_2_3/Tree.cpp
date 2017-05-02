@@ -52,7 +52,7 @@ bool Tree::deleteNode(int item)
         return false;
 
     TreeNode *parent = nullptr;
-    TreeNode *current = anker;
+    TreeNode *current = anker->Rechts;
     while (current != nullptr && current->NodePosID != item)
     {
         parent = current;
@@ -61,6 +61,9 @@ bool Tree::deleteNode(int item)
         else
             current = current->Links;
     }
+    
+    if(current != nullptr)
+        return false;
 
     std::cout << "Zu loeschender Knoten: " << current->NodePosID << std::endl;
     std::cout << "Elternknoten ist: " << parent->NodePosID << std::endl;

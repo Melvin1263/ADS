@@ -51,7 +51,7 @@ bool Tree::deleteNode(int item)
     if (anker == nullptr) 
         return false;
 
-    TreeNode *parent = nullptr;
+    TreeNode *parent = anker;
     TreeNode *current = anker->Rechts;
     while (current != nullptr && current->NodePosID != item)
     {
@@ -62,7 +62,7 @@ bool Tree::deleteNode(int item)
             current = current->Links;
     }
     
-    if(current != nullptr)
+    if(current == nullptr)
         return false;
 
     std::cout << "Zu loeschender Knoten: " << current->NodePosID << std::endl;
@@ -110,15 +110,9 @@ bool Tree::deleteNode(int item)
     else // sonst zwei Nachfolger
     {
         // Pointer auf Elternknoten vom kleinsten Knoten im rechten Teilbaum
-        TreeNode *minParent = nullptr;
+        TreeNode *minParent = current;
         // Kleinsten Knoten im Rechten Teilbaum suchen
         TreeNode *min = minNode(current->Rechts, minParent); 
-
-        // Da minNode kein minParent zurückgibt muss der 
-        // kleinste Knoten direkt unser Nachfolger vom zu
-        // löschenden Knoten sein.
-        if (minParent == nullptr)
-            minParent = current;
 
         std::cout << "Zu loeschender Knoten hat zwei Nachfolger." << std::endl;
         std::cout << "Kleinster Knoten im Rechten Teilbaum ist: " << min->NodePosID << std::endl;
@@ -153,6 +147,11 @@ bool Tree::deleteNode(int item)
     return true;
 }
 
+TreeNode * Tree::search(std::string name)
+{
+    return nullptr;
+}
+
 void Tree::print()
 {
     //std::cout << "ID | Name       | Alter | Einkommen | PLZ     | Pos" << std::endl;
@@ -180,43 +179,58 @@ TreeNode * Tree::minNode(TreeNode *k, TreeNode*&parent)
 TreeNode * Tree::maxNode(TreeNode *k)
 {
     while (k->Rechts != nullptr)
-    {
         k = k->Rechts;
-    }
     return k;
 }
 
 TreeNode * Tree::findNode(int item)
 {
-    return searchRecursive(anker, item);
+    return nullptr;
 }
 
-TreeNode * Tree::searchRecursive(TreeNode * k, int key)
-{
-    // in: Wurzel k, x = zu suchender Schlüssel
-    // out: Element mit gesuchtem Wert oder null
-    if (k == nullptr)
-        return nullptr;
-    else if (key == k->NodePosID)
-        return k;
-    else if (key < k->NodePosID)
-        return searchRecursive(k->Links, key);
-    else
-        return searchRecursive(k->Rechts, key);
-}
-
-void Tree::printPreorder(TreeNode * k)
+void Tree::printPreorder(TreeNode *k)
 {
     using namespace std;
-    if (k != nullptr)
+    if (k == nullptr)
+        return;
+
+    traversePreorder(k, [&](TreeNode *ks)->void
     {
-        cout << setw(3) << k->NodeID  << "|"
-            << setw(12) << k->Name << "|"
-            << setw(7) << k->Alter << "|"
-            << setw(11) << k->Einkommen << "|"
-            << setw(9) << k->PLZ << "|"
-            << k->NodePosID << endl;
-        printPreorder(k->Links);
-        printPreorder(k->Rechts);
-    }
+        cout << setw(3) << ks->NodeID << "|"
+            << setw(12) << ks->Name << "|"
+            << setw(7) << ks->Alter << "|"
+            << setw(11) << ks->Einkommen << "|"
+            << setw(9) << ks->PLZ << "|"
+            << ks->NodePosID << endl;
+    });
+}
+
+void Tree::traversePreorder(TreeNode *k, std::function<void(TreeNode *k)> callback)
+{
+    if (k == nullptr)
+        return;
+
+    callback(k);
+    traversePreorder(k->Links, callback);
+    traversePreorder(k->Rechts, callback);
+}
+
+void Tree::traverseInorder(TreeNode *k, std::function<void(TreeNode*k)> callback)
+{
+    if (k == nullptr)
+        return;
+
+    traversePreorder(k->Links, callback);
+    callback(k);
+    traversePreorder(k->Rechts, callback);
+}
+
+void Tree::traversePostorder(TreeNode *k, std::function<void(TreeNode*k)> callback)
+{
+    if (k == nullptr)
+        return;
+
+    traversePreorder(k->Links, callback);
+    traversePreorder(k->Rechts, callback);
+    callback(k);
 }

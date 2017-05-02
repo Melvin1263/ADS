@@ -107,7 +107,7 @@ bool Tree::deleteNode(int item)
     else // sonst zwei Nachfolger
     {
         // Pointer auf Elternknoten vom kleinsten Knoten im rechten Teilbaum
-        TreeNode *minParent = nullptrS;
+        TreeNode *minParent = nullptr;
         // Kleinsten Knoten im Rechten Teilbaum suchen
         TreeNode *min = minNode(current->Rechts, minParent); 
 

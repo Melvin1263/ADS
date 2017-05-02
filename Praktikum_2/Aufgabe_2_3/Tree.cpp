@@ -107,7 +107,7 @@ bool Tree::deleteNode(int item)
     else // sonst zwei Nachfolger
     {
         // Pointer auf Elternknoten vom kleinsten Knoten im rechten Teilbaum
-        TreeNode *minParent;
+        TreeNode *minParent = nullptrS;
         // Kleinsten Knoten im Rechten Teilbaum suchen
         TreeNode *min = minNode(current->Rechts, minParent); 
 
@@ -121,6 +121,15 @@ bool Tree::deleteNode(int item)
         std::cout << "Kleinster Knoten im Rechten Teilbaum ist: " << min->NodePosID << std::endl;
         std::cout << "Elternknoten von " << min->NodePosID << " ist " << minParent->NodePosID << std::endl;
 
+        // Der kleinste Knoten kann noch einen Rechten Nachfolgeknoten haben     
+        if (current->Rechts != min)
+        {
+            if (min->Rechts != nullptr)
+                minParent->Links = min->Rechts;
+
+            minParent->Links = nullptr;
+        }
+        
         // Der kleinste Knoten wird Nachfolger vom Elternknoten
         if (parent->Rechts == current)
             parent->Rechts = min;
@@ -162,7 +171,6 @@ TreeNode * Tree::minNode(TreeNode *k, TreeNode*&parent)
         parent = k;
         k = k->Links;
     }
-    parent = nullptr;
     return k;
 }
 

@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.7)
 # Projectname
 project(Praktikum_2)
 
+# set -std=c++11 flag
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
 # Set macro directory
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/macros")
 

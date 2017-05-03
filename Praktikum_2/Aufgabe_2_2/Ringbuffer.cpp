@@ -3,14 +3,13 @@
 
 Ringbuffer::Ringbuffer(int n)
 {
+    anker = nullptr;
     RingNode *first = nullptr;
-    if(anker == nullptr)
-    {
-        anker = new RingNode();
-        first = anker;
-    }
 
-    for (int i = 1, z=5; i<n; i++, z--)
+    anker = new RingNode();
+    first = anker;
+
+    for (int i = 1, z=n-1; i<n; i++, z--)
     {
         RingNode* node = new RingNode();
         node->setAge(z);
@@ -26,6 +25,15 @@ Ringbuffer::Ringbuffer(int n)
 
 Ringbuffer::~Ringbuffer()
 {
+    // Vom Anfang bis Ende Laufen
+    RingNode *current = anker;
+    for (int i = 0; i < size; i++)
+    {
+        RingNode* tmp = current;
+        // Weiterlaufen
+        current = current->next;
+        delete tmp;
+    }
 }
 
 bool Ringbuffer::addNode(const std::string description, const std::string data)

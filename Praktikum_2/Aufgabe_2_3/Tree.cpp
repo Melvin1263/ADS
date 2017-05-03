@@ -9,6 +9,10 @@ Tree::Tree(): letzte_id(0)
 
 Tree::~Tree()
 {
+    traversePostorder(anker, [](TreeNode* k)
+    {
+        delete k;
+    });
 }
 
 bool Tree::addNode(std::string name, int alter, int plz, double einkommen)
@@ -205,7 +209,7 @@ void Tree::printPreorder(TreeNode *k)
     });
 }
 
-void Tree::traversePreorder(TreeNode *k, std::function<void(TreeNode *k)> callback)
+void Tree::traversePreorder(TreeNode *k, std::function<void(TreeNode *)> callback)
 {
     if (k == nullptr)
         return;
@@ -215,22 +219,22 @@ void Tree::traversePreorder(TreeNode *k, std::function<void(TreeNode *k)> callba
     traversePreorder(k->Rechts, callback);
 }
 
-void Tree::traverseInorder(TreeNode *k, std::function<void(TreeNode*k)> callback)
+void Tree::traverseInorder(TreeNode *k, std::function<void(TreeNode*)> callback)
 {
     if (k == nullptr)
         return;
 
-    traversePreorder(k->Links, callback);
+    traverseInorder(k->Links, callback);
     callback(k);
-    traversePreorder(k->Rechts, callback);
+    traverseInorder(k->Rechts, callback);
 }
 
-void Tree::traversePostorder(TreeNode *k, std::function<void(TreeNode*k)> callback)
+void Tree::traversePostorder(TreeNode *k, std::function<void(TreeNode*)> callback)
 {
     if (k == nullptr)
         return;
 
-    traversePreorder(k->Links, callback);
-    traversePreorder(k->Rechts, callback);
+    traversePostorder(k->Links, callback);
+    traversePostorder(k->Rechts, callback);
     callback(k);
 }

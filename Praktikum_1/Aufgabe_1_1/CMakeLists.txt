@@ -7,3 +7,7 @@ CollectSourceFiles(
 add_executable(Aufgabe_1_1 
     ${PRIVATE_SOURCES}
 )
+
+set_target_properties (Aufgabe_1_1 PROPERTIES
+    FOLDER ${NAMED_FOLDER}
+)

@@ -89,7 +89,7 @@ List<T>::List()
     _size = 0;
 }
 
-// Jeder Knoten muss sequenziell gel�scht werden!
+// Jeder Knoten muss sequenziell gelöscht werden!
 template<typename T>
 List<T>::~List()
 {
@@ -103,8 +103,8 @@ List<T>::~List()
         delete tmp;
     }
 
-    // Es werden nur die Knoten bis vor tail gel�scht.
-    // tail muss seperat gel�scht werden
+    // Es werden nur die Knoten bis vor tail gelöscht.
+    // tail muss seperat gelöscht werden
     if (tail != nullptr)
         delete tail;
 }
@@ -137,9 +137,9 @@ Head          new_node      Tail = tmp
 |-------|     |-------|     |-------|
 | 0 |   | --> | X |   | --> | 0 |   |
 |-------| <-- |-------| <-- |-------|
-Hier F�gen Wir einen Knoten am Anfang der verketteten
-Liste ein. Der Head-Knoten dient hier als Anker zum Einf�gen.
-Es muss lediglich die restliche Liste wieder zum neuen Knoten angef�gt werden.
+Hier Fügen Wir einen Knoten am Anfang der verketteten
+Liste ein. Der Head-Knoten dient hier als Anker zum Einfügen.
+Es muss lediglich die restliche Liste wieder zum neuen Knoten angefügt werden.
 
 Der Aufwand ist hier Konstant O(1)
 */
@@ -158,14 +158,14 @@ void List<T>::insertFront(T key)
     // Den vorherigen Knoten vom neuen Knoten auf Head setzen
     new_node->prev = head;
 
-    // Rest der Liste zum neuen Knoten anf�gen;
+    // Rest der Liste zum neuen Knoten anfügen;
     new_node->next = tmp;
 
-    // Den neuen Knoten zum Vorg�nger des 
+    // Den neuen Knoten zum Vorgänger des
     // ersten Knotens vom Rest der Liste machen
     tmp->prev = new_node;
 
-    // Anzahl Elemente um eins erh�hen
+    // Anzahl Elemente um eins erhöhen
     _size++;
 }
 
@@ -174,9 +174,9 @@ Head          tmp           new_node      Tail
 |-------|     |-------|     |-------|     |-------|
 | 0 |   | --> | 1 |   | --> | x |   | --> | 0 |   |
 |-------| <-- |-------| <-- |-------| <-- |-------|
-Hier f�gen wir einen neuen Knoten zum Ende der Liste ein.
-Daf�r steht uns direkt der Tail-Knoten zur verf�gung.
-Alle Elemente die davor sind m�ssen dann zum neuen Knoten
+Hier fügen wir einen neuen Knoten zum Ende der Liste ein.
+Dafür steht uns direkt der Tail-Knoten zur verfügung.
+Alle Elemente die davor sind müssen dann zum neuen Knoten
 davorgehangen werden
 
 Der Aufwand ist hier Konstant O(1)
@@ -187,7 +187,7 @@ void List<T>::insertBack(T key)
     // Neuen Knoten erzeugen
     Node<T> *new_node = new Node<T>(key);
 
-    // Vorg�nger von Tail sichern
+    // Vorgänger von Tail sichern
     Node<T> *tmp = tail->prev;
 
     // Der neuen Knoten wird nachfolger der restlichen Liste davor
@@ -196,13 +196,13 @@ void List<T>::insertBack(T key)
     // Tail wird Folgeknoten vom neuen Knoten
     new_node->next = tail;
 
-    // Die vorherige Liste wird zum vorg�nger des neuen Knotens
+    // Die vorherige Liste wird zum vorgänger des neuen Knotens
     new_node->prev = tmp;
 
-    // Der neue Knoten wird Vorg�nger vom Tail
+    // Der neue Knoten wird Vorgänger vom Tail
     tail->prev = new_node;
 
-    // Anzahl Elemente um eins erh�hen
+    // Anzahl Elemente um eins erhöhen
     _size++;
 }
 
@@ -346,13 +346,13 @@ bool List<T>::swap(T key1, T key2)
     // Fallunterscheidung wenn node1->next = node2
     if (node1->next == node2)
     {
-        // Vorg�nger von node1 sichern
+        // Vorgänger von node1 sichern
         Node<T>* tmp1_prev = node1->prev;
 
         //Nachfolger von node2 sichern
         Node<T>* tmp2_next = node2->next;
 
-        // Vorg�nger von node1 wird Vorg�nger von node2
+        // Vorgänger von node1 wird Vorgänger von node2
         tmp1_prev->next = node2;
         node2->prev = tmp1_prev;
 
@@ -367,13 +367,13 @@ bool List<T>::swap(T key1, T key2)
     // Fallunterscheidung wenn node2->next = node1
     else if (node2->next == node1)
     {
-        // Vorg�nger von node2 sichern
+        // Vorgänger von node2 sichern
         Node<T>* tmp2_prev = node2->prev;
 
         //Nachfolger von node1 sichern
         Node<T>* tmp1_next = node1->next;
 
-        // Vorg�nger von node2 wird Vorg�nger von node1
+        // Vorgänger von node2 wird Vorgänger von node1
         tmp2_prev->next = node1;
         node1->prev = tmp2_prev;
 
@@ -388,21 +388,21 @@ bool List<T>::swap(T key1, T key2)
     // Wenn nicht nebeneinander
     else
     {
-        // Vorg�nger und Nachfolger von node1 sichern
+        // Vorgänger und Nachfolger von node1 sichern
         Node<T>* tmp1_prev = node1->prev;
         Node<T>* tmp1_next = node1->next;
 
-        // Vorg�nger und Nachfolger von node2 sichern
+        // Vorgänger und Nachfolger von node2 sichern
         Node<T>* tmp2_prev = node2->prev;
         Node<T>* tmp2_next = node2->next;
 
-        // node2 zwischen Vorg�nger und Nachfolger von node1 setzen
+        // node2 zwischen Vorgänger und Nachfolger von node1 setzen
         node2->next = tmp1_next;
         tmp1_next->prev = node2;
         tmp1_prev->next = node2;
         node2->prev = tmp1_prev;
 
-        // node1 zwischen Vorg�nger und Nachfolger von node2 setzen
+        // node1 zwischen Vorgänger und Nachfolger von node2 setzen
         node1->next = tmp2_next;
         tmp2_next->prev = node1;
         tmp2_prev->next = node1;
@@ -485,7 +485,7 @@ List<T>& List<T>::operator=(const List<T> &List)
     if (this == &List)
         return *this;
 
-    // Eventuelle vorhandene Knoten l�schen
+    // Eventuelle vorhandene Knoten löschen
     Node<T> *current = head->next;
 
     while (current->next != nullptr && current != tail)
@@ -516,7 +516,7 @@ List<T>& List<T>::operator=(const List<T> *List)
     if (this == List)
         return *this;
 
-    // Eventuelle vorhandene Knoten l�schen
+    // Eventuelle vorhandene Knoten löschen
     Node<T> *current = head->next;
 
     while (current->next != nullptr && current != tail)

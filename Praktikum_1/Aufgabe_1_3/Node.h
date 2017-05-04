@@ -16,7 +16,7 @@ public:
 
 	T getKey();
 
-	template <typename T>
+	template <typename S>
 	friend class List;
 };
 

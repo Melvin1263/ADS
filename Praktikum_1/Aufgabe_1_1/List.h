@@ -72,8 +72,6 @@ public:
     // Ausgabeoperator ueberladen
     friend std::ostream& operator<<(std::ostream & stream, List const &Liste);
     friend std::ostream& operator<<(std::ostream & stream, List const *Liste);
-
-	friend class List;
 };
 
 #endif

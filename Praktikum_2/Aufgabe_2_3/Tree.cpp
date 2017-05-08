@@ -153,7 +153,13 @@ bool Tree::deleteNode(int item)
 
 TreeNode * Tree::search(std::string name)
 {
-    return nullptr;
+    TreeNode* result = nullptr;
+    traverseInorder(anker->Rechts, [name, &result](TreeNode* k)
+    {
+        if (k->Name == name) 
+            result = k;
+    });
+    return result;
 }
 
 void Tree::print()

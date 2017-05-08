@@ -109,6 +109,26 @@ int main()
         }
         case DS_SUCHEN:
         {
+            string suche;
+            TreeNode* node = nullptr;
+            cout << "+ Bitte geben Sie den zu suchenden Datensatz an" << endl;
+            cout << "Name?> ";
+            getline(cin, suche);
+            node = baum.search(suche);
+            if(node != nullptr)
+            {
+                cout << "+ Fundstellen: " << endl;
+                cout << "NodeID: " << node->getNodePosID() 
+                    << ", Name: " << node->getName() 
+                    << ", Alter: " << node->getAlter() 
+                    << ", Einkommen: " << node->getEinkommen() 
+                    << ", PLZ: " << node->getPLZ() 
+                    << ", PosID: " << node->getNodePosID() << endl;
+            }
+            else
+            {
+                cout << "Kein Eintrag gefunden!" << endl;
+            }
             break;
         }
         case DS_LOESCHEN:

@@ -17,6 +17,8 @@ public:
     int getAlter();
     double getEinkommen();
     int getPLZ();
+    int getNodeID();
+    int getNodePosID();
     void setName(std::string);
     void setAlter(int);
     void setEinkommen(double);

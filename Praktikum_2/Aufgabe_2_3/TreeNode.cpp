@@ -27,6 +27,16 @@ int TreeNode::getPLZ()
     return PLZ;
 }
 
+int TreeNode::getNodeID()
+{
+    return NodeID;
+}
+
+int TreeNode::getNodePosID()
+{
+    return NodePosID;
+}
+
 void TreeNode::setName(std::string name)
 {
     Name = name;

@@ -15,6 +15,9 @@ using namespace std;
 
 namespace MyAlgorithms
 {
+	template<typename T>
+	std::ostream& operator<< (std::ostream& os, std::vector<T>& vec);
+
     // Dreieckstausch
     template <typename T>
     inline void Swap(T& lft, T& rht)
@@ -81,6 +84,16 @@ namespace MyAlgorithms
             vector[num1] = tmp;
         }
     }
+
+	template<typename T>
+	std::ostream & operator<<(std::ostream & os, std::vector<T>& vec)
+	{
+		for(auto it = vec.begin(); it != vec.end(); ++it)
+		{
+			os << *it << endl;
+		}
+		return os;
+	}
 
 } // end namespace MyAlgorithms
 

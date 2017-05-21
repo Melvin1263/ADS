@@ -2,22 +2,25 @@ clear;clc;close all;
 fid=fopen('quicksort.txt');
 data=textscan(fid,'%d %f');
 fclose(fid);
-x=data{1};
+x1=data{1};
 quicksort_y=data{2};
 
 fid=fopen('mergesort.txt');
 data=textscan(fid,'%d %f');
 fclose(fid);
+x2=data{1};
 mergesort_y=data{2};
 
 fid=fopen('heapsort.txt');
 data=textscan(fid,'%d %f');
 fclose(fid);
+x3=data{1};
 heapsort_y=data{2};
 
 fid=fopen('shellsort.txt');
 data=textscan(fid,'%d %f');
 fclose(fid);
+x4=data{1};
 shellsort_y=data{2};
 
 figure;
@@ -25,9 +28,9 @@ title('sorting algorithms');
 xlabel('n [-]');
 ylabel('t [s]');
 hold on;
-plot(x,quicksort_y);
-plot(x,mergesort_y);
-plot(x,heapsort_y);
-plot(x,shellsort_y);
+plot(x1,quicksort_y);
+plot(x2,mergesort_y);
+plot(x3,heapsort_y);
+plot(x4,shellsort_y);
 legend('quicksort','mergesort','heapsort','shellsort','Location','northwest');
 hold off;

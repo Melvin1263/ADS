@@ -44,7 +44,7 @@ namespace MyAlgorithms
 	// Heapsort
     size_t LeftChild(size_t i);
 	void max_heapify(vector<int> &a, int i, int n);
-	void HeapSort(vector<int> &a, int n);
+	void HeapSort(vector<int> &a);
 
 	// MergeSort
 	void Merge(vector<int> &a, vector<int> &b, int low, int pivot, int high);
@@ -61,6 +61,10 @@ namespace MyAlgorithms
 	// Matrix Multiplikation
 	void MatrixMul_ColMajor(vector<double> &a, vector<double> &b, vector<double> &c, int n);
 	void MatrixMul_RowMajor(vector<double> &a, vector<double> &b, vector<double> &c, int n);
+
+    // Matrix Multiplikation - Parallel
+    void MatrixMul_ColMajorThreaded(vector<double> &a, vector<double> &b, vector<double> &c, int n);
+    void MatrixMul_RowMajorThreaded(vector<double> &a, vector<double> &b, vector<double> &c, int n);
 
     template <typename T>
     void RandomVectorGenerator(vector<T>&vector, int n)
@@ -79,7 +83,7 @@ namespace MyAlgorithms
             num1 = num1 | rand();
             num1 %= n;
 
-            int tmp = vector[i%n];
+            T tmp = vector[i%n];
             vector[i%n] = vector[num1];
             vector[num1] = tmp;
         }

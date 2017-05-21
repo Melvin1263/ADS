@@ -1,0 +1,34 @@
+clear;clc;close all;
+
+fid=fopen('matrixcolmajor.txt');
+data=textscan(fid,'%d %f');
+fclose(fid);
+x=data{1};
+matrixcolmajor_y=data{2};
+
+fid=fopen('matrixrowmajor.txt');
+data=textscan(fid,'%d %f');
+fclose(fid);
+matrixrowmajor_y=data{2};
+
+fid=fopen('matrixcolmajorth.txt');
+data=textscan(fid,'%d %f');
+fclose(fid);
+matrixcolmajorth_y=data{2};
+
+fid=fopen('matrixrowmajorth.txt');
+data=textscan(fid,'%d %f');
+fclose(fid);
+matrixrowmajorth_y=data{2};
+
+figure;
+title('sorting algorithms');
+xlabel('n [-]');
+ylabel('t [s]');
+hold on;
+plot(x,matrixcolmajor_y);
+plot(x,matrixrowmajor_y);
+plot(x,matrixcolmajorth_y);
+plot(x,matrixrowmajorth_y);
+legend('matrixcolmajor','matrixrowmajor','matrixcolmajorth','matrixrowmajorth','Location','northwest');
+hold off;

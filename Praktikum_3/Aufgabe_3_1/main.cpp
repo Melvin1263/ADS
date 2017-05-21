@@ -13,7 +13,7 @@ void measure(const string& filename, function<void(vector<int>& vector)> func)
     file.open(filename);
 
     double dtime, start, diff;
-	double maxMeasuringTime = 180.0;
+    double maxMeasuringTime = 600.0;
 
     int n_start = 1000;
     int n_step = 1000;
@@ -21,11 +21,12 @@ void measure(const string& filename, function<void(vector<int>& vector)> func)
 
     vector<int> copy;
 
-	start = omp_get_wtime();
+    start = omp_get_wtime();
 
-    for (int n = n_start; n < n_end; n += n_step)
+    for (int n = n_start; n <= n_end; n += n_step)
     {
-        cout << "n: " << n << endl;
+        double percent = (100.0 / n_end) * n;
+        cout << "\r" << "Step: [" << n << "/" << n_end << "] " << fixed << std::setprecision(2) << percent << "% ";
 
         // Generate random vector with n elements
         vector<int> random;
@@ -39,78 +40,139 @@ void measure(const string& filename, function<void(vector<int>& vector)> func)
 
         file << n << "\t" << scientific << setprecision(10) << dtime << endl;
 
-		diff = omp_get_wtime() - start;
-		if (diff > maxMeasuringTime)
-		{
-			cout << "Messung laenger als " << maxMeasuringTime << endl;
-			break;
-		}
+        diff = omp_get_wtime() - start;
+        if (diff > maxMeasuringTime)
+        {
+            cout << "--> Messung laenger als " << maxMeasuringTime << " Sekunden";
+            break;
+        }
     }
 
+    cout << endl;
     file.close();
 }
 
-void matrix()
+void measureMatrix(const string& filename, function<void(vector<double> &a, vector<double> &b, vector<double> &c, int n)> func)
 {
-	cout << "spaltenweise" << endl;
-	vector<double> a = {1, 3, 2, 4};
-	vector<double> b = {5, 7, 6, 8};
-	vector<double> c(4);
+    ofstream file;
+    file.open(filename);
 
-	cout << "****** A ******" << endl;
-	cout << a << endl;
+    double dtime, start, diff;
+    double maxMeasuringTime = 600.0;
 
-	cout << "****** B ******" << endl;
-	cout << b << endl;
+    int n_start = 2;
+    int n_end = 800;
 
-	MatrixMul_ColMajor(a, b, c, 2);
+    vector<int> copy;
 
-	cout << "****** C ******" << endl;
-	cout << c << endl;
+    start = omp_get_wtime();
 
-	a = { 1, 2, 3, 4 };
-	b = { 5, 6, 7, 8 };
+    for (int n = 2; n <= n_end; ++n)
+    {
+        double percent = (100.0 / n_end) * n;
+        cout << "\r" << "Step: [" << n << "/" << n_end << "] " << fixed << std::setprecision(2) << percent << "% ";
 
-	cout << "zeilenweise" << endl;
+        // Generate random vector with n elements
+        vector<double> a, b, result(n * n);
+        MyAlgorithms::RandomVectorGenerator(a, n * n);
+        MyAlgorithms::RandomVectorGenerator(b, n * n);
 
-	cout << "****** A ******" << endl;
-	cout << a << endl;
+        // Measuring
+        dtime = omp_get_wtime();
+        func(a, b, result, n);
+        dtime = omp_get_wtime() - dtime;
 
-	cout << "****** B ******" << endl;
-	cout << b << endl;
+        file << n << "\t" << scientific << setprecision(10) << dtime << endl;
 
-	MatrixMul_RowMajor(a, b, c, 2);
+        diff = omp_get_wtime() - start;
+        if (diff > maxMeasuringTime)
+        {
+            cout << "--> Messung laenger als " << maxMeasuringTime << " Sekunden";
+            break;
+        }
+    }
 
-	cout << "****** C ******" << endl;
-	cout << c << endl;
+    cout << endl;
+    file.close();
+}
+
+void matrixTest()
+{
+    vector<double> a = { 1, 3, 2, 4 };
+    vector<double> b = { 5, 7, 6, 8 };
+    vector<double> c(4);
+
+    cout << "spaltenweise" << endl;
+
+    cout << "****** A ******" << endl;
+    cout << a << endl;
+
+    cout << "****** B ******" << endl;
+    cout << b << endl;
+
+    MatrixMul_ColMajor(a, b, c, 2);
+
+    cout << "****** C ******" << endl;
+    cout << c << endl;
+
+    a = { 1, 2, 3, 4 };
+    b = { 5, 6, 7, 8 };
+
+    cout << "zeilenweise" << endl;
+
+    cout << "****** A ******" << endl;
+    cout << a << endl;
+
+    cout << "****** B ******" << endl;
+    cout << b << endl;
+
+    MatrixMul_RowMajor(a, b, c, 2);
+
+    cout << "****** C ******" << endl;
+    cout << c << endl;
 }
 
 int main()
 {
-	matrix();
+    matrixTest();
 
+    cout << "Messe Matrixmultiplikation ColMajor" << endl;
+    measureMatrix("matrixcolmajor.txt", &MatrixMul_ColMajor);
+    cout << "Messe Matrixmultiplikation RowMajor" << endl;
+    measureMatrix("matrixrowmajor.txt", &MatrixMul_RowMajor);
+
+    cout << "Messe Matrixmultiplikation ColMajor Threaded" << endl;
+    measureMatrix("matrixcolmajorth.txt", &MatrixMul_ColMajorThreaded);
+    cout << "Messe Matrixmultiplikation RowMajor Threaded" << endl;
+    measureMatrix("matrixrowmajorth.txt", &MatrixMul_RowMajorThreaded);
+
+    cout << "Messe Mergesort" << endl;
     measure("mergesort.txt", [](vector<int>& data)
     {
         vector<int> tmp = data;
         MyAlgorithms::MergeSort(data, tmp, 0, int(data.size() - 1));
     });
 
+    cout << "Messe Quicksort" << endl;
     measure("quicksort.txt", [](vector<int>& data)
     {
         MyAlgorithms::QuickSort(data, 0, int(data.size() - 1));
     });
 
-	measure("shellsort.txt", [](vector<int>& data)
-	{
-		MyAlgorithms::ShellSort(data);
-	});
+    cout << "Messe Shellsort" << endl;
+    measure("shellsort.txt", [](vector<int>& data)
+    {
+        MyAlgorithms::ShellSort(data);
+    });
 
-	measure("heapsort.txt", [](vector<int>& data)
-	{
-		MyAlgorithms::HeapSort(data, 0);
-	});
+    cout << "Messe Heapsort" << endl;
+    measure("heapsort.txt", [](vector<int>& data)
+    {
+        MyAlgorithms::HeapSort(data);
+    });
 
 
+    cout << "Beliebige Taste druecken zum Beenden..." << endl;
     cin.get();
     return 0;
 }

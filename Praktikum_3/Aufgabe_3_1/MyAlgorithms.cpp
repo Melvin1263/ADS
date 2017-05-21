@@ -29,7 +29,7 @@ namespace MyAlgorithms
         }
     }
 
-    void HeapSort(vector<int>& a, int n)
+    void HeapSort(vector<int>& a)
     {
         size_t size = a.size();
 
@@ -233,4 +233,50 @@ namespace MyAlgorithms
             }
         }
 	}
+
+    void MatrixMul_ColMajorThreaded(vector<double>& a, vector<double>& b, vector<double>& c, int n)
+    {
+        int lda = n;
+        int ldb = n;
+        int ldc = n;
+        double s = 0.0;
+
+#pragma omp parallel for
+        for (int i = 0; i < n; i++)
+        {
+#pragma omp parallel for
+            for (int j = 0; j < n; j++)
+            {
+                s = 0.0;
+                for (int k = 0; k < n; k++)
+                {
+                    s = s + a[i + k*lda] * b[k + j*ldb];
+                }
+                c[i + j*ldc] = s;
+            }
+        }
+    }
+
+    void MatrixMul_RowMajorThreaded(vector<double>& a, vector<double>& b, vector<double>& c, int n)
+    {
+        int lda = n;
+        int ldb = n;
+        int ldc = n;
+        double s = 0.0;
+
+#pragma omp parallel for
+        for (int i = 0; i < n; i++)
+        {
+#pragma omp parallel for
+            for (int j = 0; j < n; j++)
+            {
+                s = 0.0;
+                for (int k = 0; k < n; k++)
+                {
+                    s = s + a[k + i*lda] * b[j + k*ldb];
+                }
+                c[j + i*ldc] = s;
+            }
+        }
+    }
 }

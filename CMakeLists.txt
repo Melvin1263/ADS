@@ -15,6 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Options
 option(BUILD_PRAK_1 "Build project files for 'Praktkium 1'" 1)
 option(BUILD_PRAK_2 "Build project files for 'Praktkium 2'" 1)
+option(BUILD_PRAK_3 "Build project files for 'Praktkium 3'" 1)
 
 # Macro AutoCollect
 include(AutoCollect)
@@ -25,6 +26,9 @@ include(CheckPlatform)
 if(BUILD_PRAK_1)
     add_subdirectory(Praktikum_1)
 endif()
-if(BUILD_PRAK_1)
+if(BUILD_PRAK_2)
     add_subdirectory(Praktikum_2)
+endif()
+if(BUILD_PRAK_3)
+    add_subdirectory(Praktikum_3)
 endif()

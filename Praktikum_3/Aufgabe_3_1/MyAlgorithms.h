@@ -13,6 +13,18 @@ using namespace std;
 #define DEBUG(str)
 #endif
 
+#define QUESTION(message, execute) do { char i = 'n'; \
+do { \
+    cout << message << endl; \
+    cout << "[J]a/[N]ein? "; \
+    cin >> i; \
+\
+    if (i != 'j') \
+        break; \
+\
+    execute \
+} while (i != 'n');  } while(0)
+
 namespace MyAlgorithms
 {
 	template<typename T>
@@ -53,7 +65,10 @@ namespace MyAlgorithms
 	// Quicksort
     // Median von 3 Werten berechnen
     int Median3(vector<int> a, int left, int right);
-	void QuickSort(vector<int> &arr, int left, int right);
+	void QuickSortOld(vector<int> &arr, int left, int right);
+
+    // Verbesserte Implementierung
+    void QuickSort(vector<int>& arr, int left, int right);
 
 	// Shellsort
     void ShellSort(vector<int> &values);
@@ -98,7 +113,7 @@ namespace MyAlgorithms
 		}
 		return os;
 	}
-
+    
 } // end namespace MyAlgorithms
 
 #endif // !_MYALGORITHMS_H_

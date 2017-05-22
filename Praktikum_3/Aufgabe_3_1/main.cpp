@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <functional>
 #include <omp.h>
+#include <algorithm>
 #include "MyAlgorithms.h"
 using namespace std;
 using namespace MyAlgorithms;
@@ -136,41 +137,57 @@ int main()
 {
     matrixTest();
 
-    cout << "Messe Matrixmultiplikation ColMajor" << endl;
-    measureMatrix("matrixcolmajor.txt", &MatrixMul_ColMajor);
-    cout << "Messe Matrixmultiplikation RowMajor" << endl;
-    measureMatrix("matrixrowmajor.txt", &MatrixMul_RowMajor);
-
-    cout << "Messe Matrixmultiplikation ColMajor Threaded" << endl;
-    measureMatrix("matrixcolmajorth.txt", &MatrixMul_ColMajorThreaded);
-    cout << "Messe Matrixmultiplikation RowMajor Threaded" << endl;
-    measureMatrix("matrixrowmajorth.txt", &MatrixMul_RowMajorThreaded);
-
-    cout << "Messe Mergesort" << endl;
-    measure("mergesort.txt", [](vector<int>& data)
-    {
-        vector<int> tmp = data;
-        MyAlgorithms::MergeSort(data, tmp, 0, int(data.size() - 1));
+    QUESTION("Messe Matrixmultiplikation ColMajor", {
+        measureMatrix("matrixcolmajor.txt", &MatrixMul_ColMajor);
+    });
+    QUESTION("Messe Matrixmultiplikation RowMajor", {
+        measureMatrix("matrixrowmajor.txt", &MatrixMul_RowMajor);
     });
 
-    cout << "Messe Quicksort" << endl;
-    measure("quicksort.txt", [](vector<int>& data)
-    {
-        MyAlgorithms::QuickSort(data, 0, int(data.size() - 1));
+    QUESTION("Messe Matrixmultiplikation ColMajor Parallel", {
+        measureMatrix("matrixcolmajorth.txt", &MatrixMul_ColMajorThreaded);
+    });
+    QUESTION("Messe Matrixmultiplikation RowMajor Parallel", {
+        measureMatrix("matrixrowmajorth.txt", &MatrixMul_RowMajorThreaded);
     });
 
-    cout << "Messe Shellsort" << endl;
-    measure("shellsort.txt", [](vector<int>& data)
-    {
-        MyAlgorithms::ShellSort(data);
+    
+    QUESTION("Messe Mergesort", {
+        measure("mergesort.txt", [](vector<int>& data)
+        {
+            vector<int> tmp = data;
+            MyAlgorithms::MergeSort(data, tmp, 0, int(data.size() - 1));
+        });
     });
 
-    cout << "Messe Heapsort" << endl;
-    measure("heapsort.txt", [](vector<int>& data)
-    {
-        MyAlgorithms::HeapSort(data);
+    QUESTION("Messe Quicksort Alt, lange Laufzeit!", {
+        measure("quicksortold.txt", [](vector<int>& data)
+        {
+            MyAlgorithms::QuickSort(data, 0, int(data.size() - 1));
+        });
     });
 
+    QUESTION("Messe Quicksort", {
+        measure("quicksort.txt", [](vector<int>& data)
+        {
+            //std::sort(data.begin(), data.end());
+            MyAlgorithms::QuickSort(data, 0, data.size() - 1);
+        });
+    });
+
+    QUESTION("Messe Shellsort", {
+        measure("shellsort.txt", [](vector<int>& data)
+        {
+            MyAlgorithms::ShellSort(data);
+        });
+    });
+
+    QUESTION("Messe Heapsort", {
+        measure("heapsort.txt", [](vector<int>& data)
+        {
+            MyAlgorithms::HeapSort(data);
+        });
+    });
 
     cout << "Beliebige Taste druecken zum Beenden..." << endl;
     cin.get();

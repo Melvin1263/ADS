@@ -128,7 +128,7 @@ namespace MyAlgorithms
         return a[center];
     }
 
-    void QuickSort(vector<int>& arr, int left, int right)
+    void QuickSortOld(vector<int>& arr, int left, int right)
     {
         if (left > right)
             return;
@@ -161,8 +161,8 @@ namespace MyAlgorithms
 
         DEBUG(VectorToString<int>(arr) << endl);
 
-        QuickSort(arr, left, i - 1);
-        QuickSort(arr, i + 1, right);
+        QuickSortOld(arr, left, i - 1);
+        QuickSortOld(arr, i + 1, right);
     }
 
     void ShellSort(vector<int>& values)
@@ -279,4 +279,32 @@ namespace MyAlgorithms
             }
         }
     }
+
+    void QuickSort(vector<int>& arr, int left, int right) {
+        int i = left, j = right;
+        int tmp;
+        int pivot = arr[(left + right) / 2];
+
+        /* partition */
+        while (i <= j) {
+            while (arr[i] < pivot)
+                i++;
+            while (arr[j] > pivot)
+                j--;
+            if (i <= j) {
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+                i++;
+                j--;
+            }
+        };
+
+        /* recursion */
+        if (left < j)
+            QuickSort(arr, left, j);
+        if (i < right)
+            QuickSort(arr, i, right);
+    }
+
 }

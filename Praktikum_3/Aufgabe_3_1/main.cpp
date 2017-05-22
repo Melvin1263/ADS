@@ -189,6 +189,13 @@ int main()
         });
     });
 
+    QUESTION("Messe stdsort", {
+        measure("stdsort.txt", [](vector<int>& data)
+        {
+            std::sort(data.begin(), data.end());
+        });
+    });
+
     cout << "Beliebige Taste druecken zum Beenden..." << endl;
     cin.get();
     return 0;

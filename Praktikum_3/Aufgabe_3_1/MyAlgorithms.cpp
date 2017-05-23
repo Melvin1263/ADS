@@ -6,7 +6,7 @@ namespace MyAlgorithms
         return 2 * i + 1;
     }
 
-    void max_heapify(vector<int>& a, int i, int n)
+    void max_heapify(std::vector<int>& a, int i, int n)
     {
         size_t child = i;
         int tmp = a[i];
@@ -29,32 +29,32 @@ namespace MyAlgorithms
         }
     }
 
-    void HeapSort(vector<int>& a)
+    void HeapSort(std::vector<int>& a)
     {
-        size_t size = a.size();
+        int size = (int)a.size();
 
-        DEBUG("MaxHeap-Aufbau von:" << endl << "Durchlauf 0: " << VectorToString(a) << endl);
+        DEBUG("MaxHeap-Aufbau von:" << std::endl << "Durchlauf 0: " << VectorToString(a) << std::endl);
 
         for (int i = size / 2; i >= 0; i--)
         {
             DEBUG("percDown(" << a[i] << ") Durchlauf " << i << ": ");
             max_heapify(a, i, size);
-            DEBUG(VectorToString(a) << endl);
+            DEBUG(VectorToString(a) << std::endl);
         }
 
-        DEBUG("Heap - Sort durchfuehren : " << endl << "Durchlauf 0: " << VectorToString(a) << endl);
+        DEBUG("Heap - Sort durchfuehren : " << std::endl << "Durchlauf 0: " << VectorToString(a) << std::endl);
 
-        for (size_t j = size - 1; j > 0; j--)
+        for (int j = size - 1; j > 0; j--)
         {
             Swap(a[0], a[j]);
 
             DEBUG("percDown(" << a[0] << ") Durchlauf " << j << ": ");
             max_heapify(a, 0, j);
-            DEBUG(VectorToString(a) << endl);
+            DEBUG(VectorToString(a) << std::endl);
         }
     }
 
-    void Merge(vector<int> &values, vector<int> &tmp, int low, int pivot, int high)
+    void Merge(std::vector<int> &values, std::vector<int> &tmp, int low, int pivot, int high)
     {
         int leftEnd = high - 1;
         int tmpPos = low;
@@ -90,22 +90,22 @@ namespace MyAlgorithms
             values[pivot] = tmp[pivot];
         }
 
-        DEBUG(VectorToString(values) << endl);
+        DEBUG(VectorToString(values) << std::endl);
     }
-    void MergeSort(vector<int> &values, vector<int> &tmp, int left, int right)
+    void MergeSort(std::vector<int> &values, std::vector<int> &tmp, int left, int right)
     {
         if (left < right)
         {
             int center = (left + right) / 2;
-            DEBUG("MergeSort(" << left << ", " << center << ")" << endl);
+            DEBUG("MergeSort(" << left << ", " << center << ")" << std::endl);
             MergeSort(values, tmp, left, center);
-            DEBUG("MergeSort(" << center + 1 << ", " << right << ")" << endl);
+            DEBUG("MergeSort(" << center + 1 << ", " << right << ")" << std::endl);
             MergeSort(values, tmp, center + 1, right);
             Merge(values, tmp, left, right, center + 1);
         }
     }
 
-    int Median3(vector<int> a, int left, int right)
+    int Median3(std::vector<int> a, int left, int right)
     {
         int center = (left + right) / 2;
 
@@ -128,12 +128,12 @@ namespace MyAlgorithms
         return a[center];
     }
 
-    void QuickSortOld(vector<int>& arr, int left, int right)
+    void QuickSortOld(std::vector<int>& arr, int left, int right)
     {
         if (left > right)
             return;
 
-        DEBUG("quicksort(a, " << left << ", " << right << ")" << endl);
+        DEBUG("quicksort(a, " << left << ", " << right << ")" << std::endl);
 
         int pivot = 0;
 
@@ -142,10 +142,10 @@ namespace MyAlgorithms
         else
         {
             pivot = arr[(left + right) / 2];
-            DEBUG("Pivot: a[" << (left + right) / 2 << "] = " << pivot << endl);
+            DEBUG("Pivot: a[" << (left + right) / 2 << "] = " << pivot << std::endl);
         }
 
-        DEBUG(VectorToString(arr) << endl);
+        DEBUG(VectorToString(arr) << std::endl);
 
         int i = left, j = right;
 
@@ -159,13 +159,13 @@ namespace MyAlgorithms
             }
         }
 
-        DEBUG(VectorToString<int>(arr) << endl);
+        DEBUG(VectorToString<int>(arr) << std::endl);
 
         QuickSortOld(arr, left, i - 1);
         QuickSortOld(arr, i + 1, right);
     }
 
-    void ShellSort(vector<int>& values)
+    void ShellSort(std::vector<int>& values)
     {
         size_t size = values.size();
 
@@ -192,7 +192,7 @@ namespace MyAlgorithms
         }
     }
 
-    void MatrixMul_ColMajor(vector<double> &a, vector<double> &b, vector<double> &c, int n)
+    void MatrixMul_ColMajor(std::vector<double> &a, std::vector<double> &b, std::vector<double> &c, int n)
 	{
 		int lda = n;
 		int ldb = n;
@@ -213,7 +213,7 @@ namespace MyAlgorithms
 		}
 	}
 
-	void MatrixMul_RowMajor(vector<double> &a, vector<double> &b, vector<double> &c, int n)
+	void MatrixMul_RowMajor(std::vector<double> &a, std::vector<double> &b, std::vector<double> &c, int n)
 	{
 		int lda = n;
 		int ldb = n;
@@ -234,7 +234,7 @@ namespace MyAlgorithms
         }
 	}
 
-    void MatrixMul_ColMajorThreaded(vector<double>& a, vector<double>& b, vector<double>& c, int n)
+    void MatrixMul_ColMajorThreaded(std::vector<double>& a, std::vector<double>& b, std::vector<double>& c, int n)
     {
         int lda = n;
         int ldb = n;
@@ -257,7 +257,7 @@ namespace MyAlgorithms
         }
     }
 
-    void MatrixMul_RowMajorThreaded(vector<double>& a, vector<double>& b, vector<double>& c, int n)
+    void MatrixMul_RowMajorThreaded(std::vector<double>& a, std::vector<double>& b, std::vector<double>& c, int n)
     {
         int lda = n;
         int ldb = n;
@@ -280,10 +280,14 @@ namespace MyAlgorithms
         }
     }
 
-    void QuickSort(vector<int>& arr, int left, int right) {
+    void QuickSort(std::vector<int>& arr, int left, int right) {
+        DEBUG("quicksort(a, " << left << ", " << right << ")" << std::endl);
+
         int i = left, j = right;
         int tmp;
         int pivot = arr[(left + right) / 2];
+
+        DEBUG("Pivot: a[" << (left + right) / 2 << "] = " << pivot << std::endl);
 
         /* partition */
         while (i <= j) {
@@ -299,6 +303,8 @@ namespace MyAlgorithms
                 j--;
             }
         };
+
+        DEBUG(VectorToString<int>(arr) << std::endl);
 
         /* recursion */
         if (left < j)

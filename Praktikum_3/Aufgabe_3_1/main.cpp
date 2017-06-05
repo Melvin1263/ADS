@@ -32,18 +32,8 @@ void measure(const std::string& filename, std::function<void(std::vector<int>& v
         std::cout << "\r" << "Step: [" << n << "/" << n_end << "] " << std::fixed << std::setprecision(2) << percent << "% ";
 
         // Generate random vector with n elements
-        std::map<int, std::vector<int>*>::iterator it = rvectormap.find(n);
         std::vector<int> random;
-        if (it != rvectormap.end())
-        {
-            random = *it->second;
-        }
-        else
-        {
-            std::vector<int>* ptrv = new std::vector<int>();
-            RandomVectorGenerator(ptrv, n);
-            rvectormap.insert(std::make_pair(n, ptrv));
-        }
+        RandomVectorGenerator(random, n);
 
         copy = random;
 
@@ -173,6 +163,12 @@ void matrixTest()
 
 int main()
 {
+    srand((uint32_t)time(NULL));
+
+    matrixTest();
+    sortTest();
+
+#ifndef _DEBUG
     MeasureManager manager = MeasureManager::getInstance();
     manager.addAlgorithm("mergesort", 
         [](std::vector<int>& data)
@@ -187,12 +183,27 @@ int main()
             MyAlgorithms::QuickSort(data, 0, (int)data.size() - 1);
         }
     );
+    manager.addAlgorithm("shellsort",
+        [](std::vector<int>& data)
+        {
+            MyAlgorithms::ShellSort(data);
+        }
+    );
+    manager.addAlgorithm("heapsort",
+        [](std::vector<int>& data)
+        {
+            MyAlgorithms::HeapSort(data);
+        }
+    );
+    manager.addAlgorithm("std::sort",
+        [](std::vector<int>& data)
+        {
+            std::sort(data.begin(), data.end());
+        }
+    );
 
-    //manager.doMeasure();
-
-    
-    matrixTest();
-    sortTest();
+    manager.doMeasure();
+#endif
 
 #ifndef _DEBUG
     QUESTION("Messe Matrixmultiplikation ColMajor", {
@@ -207,51 +218,6 @@ int main()
     });
     QUESTION("Messe Matrixmultiplikation RowMajor Parallel", {
         measureMatrix("matrixrowmajorth.txt", &MatrixMul_RowMajorThreaded);
-    });
-
-    
-    QUESTION("Messe Mergesort", {
-        measure("mergesort.txt", [](std::vector<int>& data)
-        {
-            std::vector<int> tmp = data;
-            MyAlgorithms::MergeSort(data, tmp, 0, int(data.size() - 1));
-        });
-    });
-
-    QUESTION("Messe Quicksort Alt, lange Laufzeit!", {
-        measure("quicksortold.txt", [](std::vector<int>& data)
-        {
-            MyAlgorithms::QuickSortOld(data, 0, int(data.size() - 1));
-        });
-    });
-
-    QUESTION("Messe Quicksort", {
-        measure("quicksort.txt", [](std::vector<int>& data)
-        {
-            //std::sort(data.begin(), data.end());
-            MyAlgorithms::QuickSort(data, 0, (int)data.size() - 1);
-        });
-    });
-
-    QUESTION("Messe Shellsort", {
-        measure("shellsort.txt", [](std::vector<int>& data)
-        {
-            MyAlgorithms::ShellSort(data);
-        });
-    });
-
-    QUESTION("Messe Heapsort", {
-        measure("heapsort.txt", [](std::vector<int>& data)
-        {
-            MyAlgorithms::HeapSort(data);
-        });
-    });
-
-    QUESTION("Messe stdsort", {
-        measure("stdsort.txt", [](std::vector<int>& data)
-        {
-            std::sort(data.begin(), data.end());
-        });
     });
 #endif
 

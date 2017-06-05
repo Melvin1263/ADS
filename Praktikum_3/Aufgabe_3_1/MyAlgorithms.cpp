@@ -92,6 +92,7 @@ namespace MyAlgorithms
 
         DEBUG(VectorToString(values) << std::endl);
     }
+
     void MergeSort(std::vector<int> &values, std::vector<int> &tmp, int left, int right)
     {
         if (left < right)

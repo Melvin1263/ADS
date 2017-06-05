@@ -140,7 +140,7 @@ namespace MyAlgorithms
                 bool breakit = false;
                 do {
                     char choose;
-                    std::cout << "Messung duerchfuehren fuer: " << it->getAlgoName() << "? [J]a/[N]ein > ";
+                    std::cout << "Messung durchfuehren fuer: " << it->getAlgoName() << "? [J]a/[N]ein > ";
                     std::cin >> choose;
                     if (choose == 'j')
                     {
@@ -152,7 +152,7 @@ namespace MyAlgorithms
                         breakit = true;
                     else
                         continue;
-                } while (breakit == false);
+                } while (!breakit);
             }
           
         }
@@ -179,24 +179,12 @@ namespace MyAlgorithms
                 std::cout << "\r" << "Step: [" << n << "/" << n_end << "] " << std::fixed << std::setprecision(2) << percent << "% ";
 
                 // Generate random vector with n elements
-                std::map<int, std::vector<int>*>::iterator it = m_rvectormap.find(n);
-                std::vector<int> random;
-                if (it != m_rvectormap.end())
-                {
-                    random = *it->second;
-                }
-                else
-                {
-                    std::vector<int>* ptrv = new std::vector<int>();
-                    RandomVectorGenerator(ptrv, n);
-                    m_rvectormap.insert(std::make_pair(n, ptrv));
-                }
-
-                copy = random;
+                std::vector<int> randomData;
+                RandomVectorGenerator(randomData, n);
 
                 // Measuring
                 dtime = omp_get_wtime();
-                current->call(copy);
+                current->call(randomData);
                 dtime = omp_get_wtime() - dtime;
 
                 file << n << "\t" << std::scientific << std::setprecision(10) << dtime << std::endl;
